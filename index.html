@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>html{color-scheme:light}body{margin:0}</style>
+<title>الطفولة المتأخرة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* Layout concept: one lesson per page; each point opens an illustration; drifting school shapes in the background. */
+:root{
+  --bg:#EAF5FF; --bg2:#D3EAFF; --ink:#12304D; --muted:#486784;
+  --surface:rgba(255,255,255,.86); --head:rgba(234,245,255,.92); --line:#B7D5EE;
+  --c-sun:#FFB800; --c-coral:#FF5C5C; --c-mint:#12B5A2; --c-violet:#7357F5; --c-sky:#2D9CFF;
+  --on-accent:#12304D; --skin:#F2B684; --paper:#FDFEFF;
+  --display:'Lalezar','Tajawal',system-ui,sans-serif; --body:'Tajawal',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1B30; --bg2:#14294A; --ink:#EAF3FF; --muted:#A3BAD3;
+  --surface:rgba(23,41,70,.88); --head:rgba(14,27,48,.92); --line:#2B4772;
+  --c-sun:#FFC93C; --c-coral:#FF7A7A; --c-mint:#3DD6C3; --c-violet:#9A86FF; --c-sky:#5BB4FF;
+  --skin:#E8A877; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1B30; --bg2:#14294A; --ink:#EAF3FF; --muted:#A3BAD3;
+  --surface:rgba(23,41,70,.88); --head:rgba(14,27,48,.92); --line:#2B4772;
+  --c-sun:#FFC93C; --c-coral:#FF7A7A; --c-mint:#3DD6C3; --c-violet:#9A86FF; --c-sky:#5BB4FF;
+  --skin:#E8A877; color-scheme:dark}
+
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.9;min-height:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;background:radial-gradient(120% 80% at 80% 0%,var(--bg2),transparent 60%)}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1100px;margin:0 auto;box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--head);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;padding-block:8px 2px;font-family:var(--display);font-size:1.3rem;line-height:1.3}
+.brand svg{width:24px;height:24px;flex:none}
+nav.chips{display:flex;gap:8px;overflow-x:auto;padding-block:6px 10px;scrollbar-width:none}
+nav.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 14px/1 var(--body);padding:9px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.chip[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip:hover{border-color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--c-violet);outline-offset:2px}
+
+main{flex:1;padding-block:26px 24px}
+.panel{animation:enter .5s ease both}
+@keyframes enter{from{transform:translateY(14px)}to{transform:none}}
+.panel-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:start}
+.panel-grid.flip{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:center}
+.art{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:14px;max-width:100%;min-width:0;box-sizing:border-box}
+.art svg{display:block;width:100%;height:auto}
+.hero{position:sticky;top:130px}
+.body{min-width:0}
+.eyebrow{margin:0 0 4px;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+h1,h2{font-family:var(--display);font-weight:400;line-height:1.3;margin:0 0 12px;text-wrap:balance}
+h1{font-size:clamp(2.6rem,9vw,4.6rem)}
+h2{font-size:clamp(1.9rem,5.6vw,2.9rem)}
+h1 span,h2 span{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--a,var(--c-sun)) 60%,transparent) 60% 92%,transparent 92%);padding-inline:4px}
+.lead{margin:0 0 12px;max-width:62ch}
+.hint{margin:0 0 14px;font-size:14px;color:var(--muted)}
+
+.points{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pt{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.pt.open{border-color:var(--a)}
+.pt-head{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;line-height:1.6;font-weight:700;font-size:1.02rem}
+.pt-head:focus-visible{outline:3px solid var(--c-violet);outline-offset:-3px}
+.pt-head::before{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--a)}
+.pt-t{flex:1;min-width:0}
+.pt-hint{flex:none;font-size:12px;font-weight:500;color:var(--muted);background:var(--bg2);padding:3px 10px;border-radius:999px}
+.pt-head svg{flex:none;width:16px;height:16px;transition:transform .25s}
+.pt.open .pt-head svg{transform:rotate(180deg)}
+.pt.open .pt-hint{display:none}
+.pt-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,250px);gap:14px;align-items:center;padding:0 16px 16px}
+.pt-body p{margin:0;color:var(--muted);font-size:16px;line-height:1.85}
+.pt-art{background:var(--bg2);border-radius:16px;padding:6px;min-width:0}
+.pt-art svg{display:block;width:100%;height:auto}
+
+.map{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:22px}
+.tile{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 14px;line-height:1.5;transition:transform .2s,border-color .2s}
+.tile:hover{transform:translateY(-3px);border-color:var(--a)}
+.tile small{font-size:12px;color:var(--muted);font-weight:500}
+.tile b{font-size:15px;display:flex;align-items:center;gap:8px}
+.tile b::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--a);flex:none}
+.start{display:inline-flex;align-items:center;gap:10px;margin-top:18px;text-decoration:none;background:var(--c-sun);color:var(--on-accent);font:700 17px/1 var(--body);padding:14px 22px;border-radius:999px}
+.quote{font-family:var(--display);font-size:clamp(1.3rem,3.6vw,1.8rem);line-height:1.7;margin:0 0 16px;max-width:30ch}
+.team{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px 22px 10px;max-width:420px}
+.team-label{margin:0 0 4px;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.team ul{list-style:none;margin:0;padding:0}
+.team{max-width:460px}
+.team li{display:grid;grid-template-columns:12px minmax(0,1fr);column-gap:12px;align-items:center;padding-block:8px}
+.team li::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--a)}
+.team .nm{font-size:1.25rem;font-weight:700;line-height:1.5}
+.team.sources .nm{font-size:1rem;color:var(--ink);text-decoration-color:var(--a);text-underline-offset:4px;overflow-wrap:anywhere;unicode-bidi:plaintext}
+.team .role{grid-column:2;font-size:1rem;font-weight:500;line-height:1.6;color:var(--ink);opacity:.82}
+
+footer.pager{position:sticky;bottom:0;background:var(--head);border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.pager .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.nbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:700 15px/1 var(--body);padding:12px 18px;border-radius:999px;cursor:pointer;min-width:0}
+.nbtn.next{background:var(--c-sun);color:var(--on-accent);border-color:transparent}
+.nbtn[disabled]{visibility:hidden}
+.nbtn svg{width:16px;height:16px;flex:none}
+.mid{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;max-width:300px}
+.bar{width:100%;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ink);border-radius:3px;transition:width .3s}
+.count{font-size:13px;color:var(--muted);line-height:1;font-variant-numeric:tabular-nums}
+
+.pop{animation:pop .55s cubic-bezier(.3,1.6,.5,1) both;transform-box:fill-box;transform-origin:center}
+.fl{animation:bob 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.tw{animation:twinkle 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.bob{animation:bob 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pop{from{transform:scale(.2);opacity:0}}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes twinkle{50%{transform:scale(.7);opacity:.6}}
+svg text{font-family:var(--body)}
+
+@media (max-width:860px){
+  .panel-grid,.panel-grid.flip{grid-template-columns:minmax(0,1fr);gap:18px}
+  .hero{position:static;max-width:240px;margin-inline:auto;width:100%}
+  .art{width:100%}
+  .panel-grid.flip .art{max-width:480px;margin-inline:auto}
+  main{padding-block:18px 14px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .pt-body{grid-template-columns:minmax(0,1fr)}
+  .pt-art{max-width:320px;width:100%;margin-inline:auto;box-sizing:border-box}
+  .nbtn{padding:11px 14px}
+  .pt-hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="kid" viewBox="0 0 60 120">
+  <rect x="8" y="38" width="9" height="30" rx="4.5" fill="var(--skin)"/>
+  <rect x="43" y="38" width="9" height="30" rx="4.5" fill="var(--skin)"/>
+  <rect x="18" y="76" width="10" height="40" rx="5" fill="var(--ink)" opacity=".8"/>
+  <rect x="32" y="76" width="10" height="40" rx="5" fill="var(--ink)" opacity=".8"/>
+  <rect x="14" y="32" width="32" height="50" rx="13" fill="currentColor"/>
+  <circle cx="30" cy="18" r="15" fill="var(--skin)"/>
+  <path d="M15 17a15 15 0 0 1 30 0c-7-7-23-7-30 0z" fill="#5A3A28"/>
+  <circle cx="25" cy="21" r="1.8" fill="#3A2A20"/><circle cx="35" cy="21" r="1.8" fill="#3A2A20"/>
+  <path d="M25.5 26q4.5 3.8 9 0" stroke="#3A2A20" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+</symbol>
+<symbol id="g-heart" viewBox="0 0 100 100"><path d="M50 88C20 66 8 48 8 32 8 18 19 10 31 10c9 0 15 5 19 12 4-7 10-12 19-12 12 0 23 8 23 22 0 16-12 34-42 56z" fill="currentColor"/></symbol>
+<symbol id="g-star" viewBox="0 0 100 100"><path d="M50 6l13 28 31 4-23 21 6 31-27-15-27 15 6-31L6 38l31-4z" fill="currentColor"/></symbol>
+<symbol id="g-book" viewBox="0 0 100 100"><path d="M50 24Q30 12 8 20v58q22-8 42 4z" fill="var(--paper)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/><path d="M50 24Q70 12 92 20v58q-22-8-42 4z" fill="currentColor" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/><path d="M16 36q16-4 28 2M16 50q16-4 28 2" stroke="var(--line)" stroke-width="4" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="g-pencil" viewBox="0 0 100 100"><g transform="rotate(-40 50 50)"><rect x="14" y="40" width="56" height="20" fill="currentColor"/><path d="M70 40l20 10-20 10z" fill="var(--skin)"/><path d="M82 46l8 4-8 4z" fill="var(--ink)"/><rect x="8" y="40" width="10" height="20" rx="3" fill="var(--c-coral)"/></g></symbol>
+<symbol id="g-ball" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><path d="M50 30l17 12-6 20H39l-6-20z" fill="currentColor"/><path d="M50 30V12M67 42l22-6M61 62l12 18M39 62L27 80M33 42L11 36" stroke="var(--ink)" stroke-width="3"/></symbol>
+<symbol id="g-tooth" viewBox="0 0 100 100"><path d="M26 14c10-6 18 0 24 0s14-6 24 0c10 8 6 28 0 42-4 12-4 30-12 30-8 0-6-18-12-18s-4 18-12 18c-8 0-8-18-12-30C20 42 16 22 26 14z" fill="var(--paper)" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></symbol>
+<symbol id="g-eye" viewBox="0 0 100 100"><path d="M6 50Q50 6 94 50Q50 94 6 50z" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><circle cx="50" cy="50" r="17" fill="currentColor"/><circle cx="50" cy="50" r="7" fill="var(--ink)"/><circle cx="55" cy="44" r="3" fill="#fff"/></symbol>
+<symbol id="g-brain" viewBox="0 0 100 100"><path d="M34 20c-14 0-24 10-22 24-8 8-4 22 6 26 0 12 12 18 22 14 4 6 16 6 20 0 10 4 22-2 22-14 10-4 14-18 6-26 2-14-8-24-22-24-4-6-16-6-20-4-4-2-8-2-12 4z" fill="currentColor" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/><path d="M50 22v56M34 42q8 4 16 0M66 56q-8 4-16 0" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="g-moon" viewBox="0 0 100 100"><path d="M64 10a40 40 0 1 0 26 66A34 34 0 0 1 64 10z" fill="currentColor"/></symbol>
+<symbol id="g-bulb" viewBox="0 0 100 100"><circle cx="50" cy="42" r="28" fill="currentColor"/><rect x="38" y="68" width="24" height="14" rx="4" fill="var(--ink)" opacity=".8"/><rect x="42" y="84" width="16" height="8" rx="4" fill="var(--ink)" opacity=".8"/><path d="M12 42H4M96 42h-8M22 14l-6-6M78 14l6-6" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="g-trophy" viewBox="0 0 100 100"><path d="M30 10h40v28c0 16-9 26-20 28-11-2-20-12-20-28z" fill="currentColor"/><path d="M30 16H12c0 20 8 26 18 28M70 16h18c0 20-8 26-18 28" stroke="currentColor" stroke-width="6" fill="none"/><rect x="44" y="66" width="12" height="14" fill="currentColor"/><rect x="30" y="80" width="40" height="12" rx="3" fill="var(--ink)" opacity=".85"/></symbol>
+<symbol id="g-clock" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="var(--paper)" stroke="currentColor" stroke-width="8"/><path d="M50 26v26l18 10" stroke="var(--ink)" stroke-width="6" stroke-linecap="round" fill="none"/></symbol>
+<symbol id="g-screen" viewBox="0 0 100 100"><rect x="10" y="22" width="80" height="54" rx="6" fill="var(--ink)"/><rect x="16" y="28" width="68" height="42" rx="3" fill="currentColor"/><rect x="40" y="78" width="20" height="8" fill="var(--ink)"/><rect x="30" y="86" width="40" height="5" rx="2.5" fill="var(--ink)"/></symbol>
+<symbol id="g-shield" viewBox="0 0 100 100"><path d="M50 6l36 12v28c0 24-16 40-36 48C30 86 14 70 14 46V18z" fill="currentColor"/><path d="M34 48l11 11 22-24" stroke="var(--paper)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-scale" viewBox="0 0 100 100"><rect x="46" y="14" width="8" height="70" fill="var(--ink)"/><rect x="26" y="84" width="48" height="8" rx="4" fill="var(--ink)"/><path d="M14 26H86" stroke="var(--ink)" stroke-width="6" stroke-linecap="round"/><path d="M14 26L4 56h20zM86 26L76 56h20z" fill="none" stroke="var(--ink)" stroke-width="3"/><path d="M2 56h24a12 10 0 0 1-24 0zM74 56h24a12 10 0 0 1-24 0z" fill="currentColor"/></symbol>
+<symbol id="g-bubble" viewBox="0 0 100 100"><path d="M12 12h76a8 8 0 0 1 8 8v44a8 8 0 0 1-8 8H50L30 92V72H12a8 8 0 0 1-8-8V20a8 8 0 0 1 8-8z" fill="var(--paper)" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><g fill="currentColor"><circle cx="32" cy="42" r="7"/><circle cx="52" cy="42" r="7"/><circle cx="72" cy="42" r="7"/></g></symbol>
+<symbol id="g-bubble0" viewBox="0 0 100 100"><path d="M12 12h76a8 8 0 0 1 8 8v44a8 8 0 0 1-8 8H50L30 92V72H12a8 8 0 0 1-8-8V20a8 8 0 0 1 8-8z" fill="var(--paper)" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/></symbol>
+<symbol id="g-apple" viewBox="0 0 100 100"><path d="M50 28c-10-8-36-6-36 22 0 22 14 40 26 40 6 0 6-3 10-3s4 3 10 3c12 0 26-18 26-40 0-28-26-30-36-22z" fill="currentColor"/><path d="M50 28c0-10 4-16 12-20" stroke="#6B4A2B" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M58 14c8-6 18-2 20 4-8 4-16 2-20-4z" fill="#3E9E5A"/></symbol>
+<symbol id="g-glass" viewBox="0 0 100 100"><path d="M22 12h56l-6 78H28z" fill="var(--paper)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/><path d="M25 38h50l-3 52H28z" fill="currentColor" opacity=".85"/></symbol>
+<symbol id="g-puzzle" viewBox="0 0 100 100"><path d="M12 28h24a10 10 0 1 1 20 0h24v24a10 10 0 1 0 0 20v20H56a10 10 0 1 0-20 0H12V72a10 10 0 1 1 0-20z" fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/></symbol>
+<symbol id="g-lock" viewBox="0 0 100 100"><path d="M30 46V32a20 20 0 0 1 40 0v14" fill="none" stroke="var(--ink)" stroke-width="8"/><rect x="18" y="44" width="64" height="46" rx="8" fill="currentColor"/><circle cx="50" cy="64" r="6" fill="var(--ink)"/><rect x="47" y="66" width="6" height="14" fill="var(--ink)"/></symbol>
+<symbol id="g-key" viewBox="0 0 100 100"><circle cx="28" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="10"/><path d="M46 50h46M76 50v14M88 50v10" stroke="currentColor" stroke-width="10" stroke-linecap="round"/></symbol>
+<symbol id="g-check" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="currentColor"/><path d="M28 52l16 16 28-32" stroke="var(--paper)" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-cross" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="currentColor"/><path d="M33 33l34 34M67 33L33 67" stroke="var(--paper)" stroke-width="10" stroke-linecap="round"/></symbol>
+<symbol id="g-sun" viewBox="0 0 100 100"><circle cx="50" cy="50" r="22" fill="currentColor"/><path d="M50 8v12M50 80v12M8 50h12M80 50h12M20 20l9 9M71 71l9 9M80 20l-9 9M29 71l-9 9" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></symbol>
+<symbol id="g-cloud" viewBox="0 0 100 100"><path d="M26 74a20 20 0 0 1 2-40 26 26 0 0 1 48 6 17 17 0 0 1-2 34z" fill="currentColor"/></symbol>
+<symbol id="g-school" viewBox="0 0 100 100"><path d="M8 44L50 14l42 30z" fill="currentColor"/><rect x="16" y="44" width="68" height="44" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><rect x="40" y="62" width="20" height="26" fill="var(--ink)"/><rect x="22" y="54" width="12" height="12" fill="var(--c-sky)"/><rect x="66" y="54" width="12" height="12" fill="var(--c-sky)"/><path d="M50 14V2l12 4-12 4" fill="var(--c-coral)"/></symbol>
+<symbol id="g-board" viewBox="0 0 100 100"><rect x="6" y="10" width="88" height="62" rx="5" fill="#1F4B3A" stroke="#8B5E3C" stroke-width="6"/><path d="M18 30h30M18 44h52M18 58h22" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/><path d="M30 72l-8 20M70 72l8 20" stroke="#8B5E3C" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="g-ruler" viewBox="0 0 100 100"><rect x="6" y="36" width="88" height="28" rx="4" fill="currentColor"/><path d="M18 36v12M30 36v8M42 36v12M54 36v8M66 36v12M78 36v8" stroke="var(--ink)" stroke-width="3"/></symbol>
+<symbol id="g-dice" viewBox="0 0 100 100"><rect x="12" y="12" width="76" height="76" rx="14" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><g fill="currentColor"><circle cx="32" cy="32" r="7"/><circle cx="68" cy="32" r="7"/><circle cx="50" cy="50" r="7"/><circle cx="32" cy="68" r="7"/><circle cx="68" cy="68" r="7"/></g></symbol>
+<symbol id="g-flag" viewBox="0 0 100 100"><rect x="22" y="8" width="7" height="86" rx="3" fill="var(--ink)"/><path d="M29 12h56l-14 20 14 20H29z" fill="currentColor"/></symbol>
+<symbol id="g-plant" viewBox="0 0 100 100"><path d="M50 90V46" stroke="#4E8E4E" stroke-width="6" stroke-linecap="round"/><path d="M50 56C28 56 20 40 20 24c22 0 30 14 30 32zM50 46c0-18 10-30 30-30 0 18-10 30-30 30z" fill="currentColor"/><path d="M30 90h40l-6-18H36z" fill="#B5703E"/></symbol>
+<symbol id="g-drop" viewBox="0 0 100 100"><path d="M50 8C34 34 20 48 20 64a30 30 0 0 0 60 0C80 48 66 34 50 8z" fill="currentColor"/><path d="M36 64a14 14 0 0 0 12 14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/></symbol>
+<symbol id="g-arrow" viewBox="0 0 100 100"><path d="M8 50h70M56 26l28 24-28 24" stroke="currentColor" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-bike" viewBox="0 0 100 100"><circle cx="22" cy="66" r="18" fill="none" stroke="var(--ink)" stroke-width="5"/><circle cx="78" cy="66" r="18" fill="none" stroke="var(--ink)" stroke-width="5"/><path d="M22 66L40 38h26L78 66M40 38l14 28H22M66 38l-12 28M36 32h12M62 30l6-6h8" stroke="currentColor" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="g-palette" viewBox="0 0 100 100"><path d="M50 10C24 10 6 28 6 50s16 40 36 40c8 0 10-6 6-12-4-6 0-12 8-12h16c14 0 24-8 24-20C96 24 76 10 50 10z" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><circle cx="30" cy="42" r="7" fill="var(--c-coral)"/><circle cx="48" cy="28" r="7" fill="var(--c-sun)"/><circle cx="68" cy="34" r="7" fill="var(--c-mint)"/><circle cx="26" cy="64" r="7" fill="currentColor"/></symbol>
+<symbol id="g-magnifier" viewBox="0 0 100 100"><circle cx="42" cy="42" r="28" fill="var(--paper)" fill-opacity=".6" stroke="currentColor" stroke-width="9"/><path d="M63 63l28 28" stroke="currentColor" stroke-width="13" stroke-linecap="round"/></symbol>
+<symbol id="g-bolt" viewBox="0 0 100 100"><path d="M56 6L18 56h26l-8 38 40-52H50z" fill="currentColor"/></symbol>
+<symbol id="g-dumbbell" viewBox="0 0 100 100"><rect x="4" y="34" width="12" height="32" rx="3" fill="var(--ink)"/><rect x="16" y="26" width="12" height="48" rx="3" fill="currentColor"/><rect x="28" y="46" width="44" height="8" fill="var(--ink)"/><rect x="72" y="26" width="12" height="48" rx="3" fill="currentColor"/><rect x="84" y="34" width="12" height="32" rx="3" fill="var(--ink)"/></symbol>
+<symbol id="g-smile" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="currentColor"/><circle cx="36" cy="42" r="5" fill="var(--ink)"/><circle cx="64" cy="42" r="5" fill="var(--ink)"/><path d="M30 60q20 22 40 0" stroke="var(--ink)" stroke-width="5" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="g-sad" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="currentColor"/><circle cx="36" cy="42" r="5" fill="var(--ink)"/><circle cx="64" cy="42" r="5" fill="var(--ink)"/><path d="M32 72q18-16 36 0" stroke="var(--ink)" stroke-width="5" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="g-stairs" viewBox="0 0 100 100"><path d="M6 92V72h22V52h22V32h22V12h20v80z" fill="currentColor"/></symbol>
+<symbol id="g-checklist" viewBox="0 0 100 100"><rect x="18" y="10" width="64" height="80" rx="8" fill="var(--paper)" stroke="var(--ink)" stroke-width="4"/><path d="M30 34h8M30 54h8M30 74h8" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M46 34h26M46 54h26M46 74h26" stroke="var(--line)" stroke-width="5" stroke-linecap="round"/></symbol>
+<symbol id="g-bed" viewBox="0 0 100 100"><rect x="6" y="46" width="88" height="24" rx="4" fill="currentColor"/><rect x="6" y="30" width="10" height="52" rx="3" fill="var(--ink)"/><rect x="84" y="62" width="10" height="20" rx="3" fill="var(--ink)"/><rect x="20" y="36" width="24" height="14" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/></symbol>
+<symbol id="g-ear" viewBox="0 0 100 100"><path d="M50 8C28 8 18 26 20 44c2 16 12 20 16 30 4 12 22 12 26-2 2-8 12-12 12-22C74 18 66 8 50 8z" fill="var(--skin)" stroke="var(--ink)" stroke-width="4"/><path d="M42 30c10-8 20 4 14 16-4 8-8 10-8 18" stroke="var(--ink)" stroke-width="4" fill="none" stroke-linecap="round"/></symbol>
+</defs>
+</svg>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<div id="app" dir="rtl" lang="ar">
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 60 120" aria-hidden="true"><use href="#kid" style="color:var(--c-coral)"/></svg>
+      مدخل للطفولة المتأخرة
+    </div>
+    <nav class="chips" id="chips" aria-label="أقسام الموقع"></nav>
+  </div>
+</header>
+
+<main class="wrap" id="stage">
+
+<section class="panel" id="cover" style="--a:var(--c-sun)">
+  <div class="panel-grid flip">
+    <div class="body">
+      <h1><span>مدخل للطفولة المتأخرة</span></h1>
+      <div class="team">
+        <p class="team-label">من إعداد وتقديم</p>
+        <ul>
+          <li style="--a:var(--c-coral)"><span class="nm">لونيس طه عبد المؤمن</span><span class="role">بناء الموقع وتحديد مصادر المعلومات</span></li>
+          <li style="--a:var(--c-sky)"><span class="nm">شريف نوردين</span><span class="role">تحديد المعلومات اللازمة وجمعها</span></li>
+          <li style="--a:var(--c-mint)"><span class="nm">حريش معاذ</span><span class="role">ربط المعلومات وترتيبها</span></li>
+        </ul>
+      </div>
+      <div class="team sources">
+        <p class="team-label">مصادر البحث</p>
+        <ul>
+          <li style="--a:var(--c-violet)"><a class="nm" href="https://www.hup.harvard.edu/" target="_blank" rel="noopener"><bdi>Harvard University Press</bdi> · <bdi>Lawrence Kohlberg</bdi></a><span class="role">أعمال كولبرغ في النمو الأخلاقي</span></li>
+          <li style="--a:var(--c-sun)"><a class="nm" href="https://www.google.com/search?tbm=bks&amp;q=Life-Span+Development+John+Santrock" target="_blank" rel="noopener"><bdi>Google Books</bdi> · <bdi>Life-Span Development</bdi> by <bdi>John Santrock</bdi></a><span class="role">كتاب تطور الإنسان عبر مراحل العمر</span></li>
+          <li style="--a:var(--c-sky)"><a class="nm" href="https://psycnet.apa.org/" target="_blank" rel="noopener"><bdi>APA</bdi> (<bdi>American Psychological Association</bdi>) <bdi>PsychNet</bdi></a><span class="role">قاعدة الأبحاث النفسية</span></li>
+          <li style="--a:var(--c-coral)"><a class="nm" href="https://archive.org/search?query=Jean+Piaget" target="_blank" rel="noopener"><bdi>Internet Archive</bdi> · <bdi>Jean Piaget</bdi> Collection</a><span class="role">مؤلفات جان بياجيه</span></li>
+        </ul>
+      </div>
+      <a class="start" href="#intro">ابدأ العرض
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 400 280" role="img" aria-label="ثلاثة أطفال وكتاب مفتوح تحيط به نجوم">
+        <circle cx="340" cy="44" r="40" fill="var(--c-sun)" opacity=".25" class="tw"/>
+        <circle cx="340" cy="44" r="25" fill="var(--c-sun)"/>
+        <rect x="0" y="262" width="400" height="18" fill="var(--c-mint)" opacity=".45"/>
+        <g class="bob">
+          <path d="M200 52q-44-20-88 0v64q44-20 88 0z" fill="var(--paper)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M200 52q44-20 88 0v64q-44-20-88 0z" fill="var(--paper)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M126 70q30-8 62 4M126 86q30-8 62 4M212 74q32-12 62-4M212 90q32-12 62-4" stroke="var(--line)" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M200 52v64" stroke="var(--ink)" stroke-width="3"/>
+        </g>
+        <use href="#g-star" x="62" y="32" width="26" height="26" class="tw" style="color:var(--c-coral)"/>
+        <use href="#g-star" x="300" y="112" width="26" height="26" class="tw" style="color:var(--c-violet);animation-delay:.8s"/>
+        <use href="#g-star" x="22" y="108" width="18" height="18" class="tw" style="color:var(--c-sky);animation-delay:1.3s"/>
+        <g class="bob"><use href="#kid" x="60" y="140" width="60" height="120" style="color:var(--c-coral)"/></g>
+        <g class="bob" style="animation-delay:.5s"><use href="#kid" x="170" y="140" width="60" height="120" style="color:var(--c-sky)"/></g>
+        <g class="bob" style="animation-delay:1s"><use href="#kid" x="280" y="140" width="60" height="120" style="color:var(--c-mint)"/></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="summary" style="--a:var(--c-sky)" hidden>
+  <div class="panel-grid flip">
+    <div class="body">
+      <p class="eyebrow">10 · الخلاصة</p>
+      <h2><span>حجر الأساس للشخصية</span></h2>
+      <p class="quote">كلما كانت البيئة الأسرية والمدرسية داعمة وآمنة، عبر الطفل هذه المرحلة نحو المراهقة بثقة واستقرار.</p>
+      <p class="lead">مرحلة الطفولة المتأخرة هي حجر الأساس لشخصية الإنسان المستقبلية. حين تجتمع الثقة والاستقرار النفسي والعقلي والاجتماعي، يصل الطفل إلى المراهقة وهو أقدر على مواجهة ما ينتظره.</p>
+      <a class="start" href="#cover">العودة إلى البداية</a>
+    </div>
+    <div class="art">
+      <svg viewBox="0 0 400 290" role="img" aria-label="شجرة تنمو من حجارة أساس متراصة">
+        <circle cx="332" cy="52" r="26" fill="var(--c-sun)" class="tw"/>
+        <g class="bob">
+          <rect x="192" y="120" width="16" height="92" rx="6" fill="#8B5E3C"/>
+          <path d="M200 160l-26-22M200 142l24-20" stroke="#8B5E3C" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="200" cy="92" r="48" fill="var(--c-mint)"/>
+          <circle cx="158" cy="118" r="32" fill="var(--c-mint)" opacity=".85"/>
+          <circle cx="244" cy="120" r="32" fill="var(--c-mint)" opacity=".85"/>
+          <use href="#g-star" x="176" y="70" width="22" height="22" style="color:var(--c-sun)"/>
+          <use href="#g-star" x="216" y="94" width="22" height="22" style="color:var(--c-coral)"/>
+        </g>
+        <g fill="var(--c-sky)" stroke="var(--ink)" stroke-width="2">
+          <rect x="30" y="208" width="84" height="24" rx="4"/><rect x="118" y="208" width="84" height="24" rx="4"/><rect x="206" y="208" width="84" height="24" rx="4"/><rect x="294" y="208" width="76" height="24" rx="4"/>
+        </g>
+        <g fill="var(--c-sun)" stroke="var(--ink)" stroke-width="2">
+          <rect x="8" y="236" width="84" height="24" rx="4"/><rect x="96" y="236" width="84" height="24" rx="4"/><rect x="184" y="236" width="84" height="24" rx="4"/><rect x="272" y="236" width="84" height="24" rx="4"/>
+        </g>
+        <g fill="var(--c-coral)" stroke="var(--ink)" stroke-width="2">
+          <rect x="30" y="264" width="84" height="24" rx="4"/><rect x="118" y="264" width="84" height="24" rx="4"/><rect x="206" y="264" width="84" height="24" rx="4"/><rect x="294" y="264" width="76" height="24" rx="4"/>
+        </g>
+        <rect x="112" y="232" width="176" height="32" rx="16" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.5"/>
+        <text x="200" y="254" text-anchor="middle" font-size="16" font-weight="700" fill="#12304D">حجر الأساس</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pager">
+  <div class="wrap">
+    <button class="nbtn prev" id="prev" type="button" aria-label="القسم السابق">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>السابق</span>
+    </button>
+    <div class="mid">
+      <div class="bar"><i id="fill"></i></div>
+      <div class="count" id="count"></div>
+    </div>
+    <button class="nbtn next" id="next" type="button" aria-label="القسم التالي">
+      <span>التالي</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</footer>
+
+</div>
+<script>
+var P=[];
+P.push({id:'intro',nav:'مدخل',tag:'مدخل',title:'ما هي الطفولة المتأخرة؟',a:'sun',map:true,
+ hero:['kid','sun',['school','sky'],['book','mint'],['heart','coral'],['ball','violet']],
+ pts:[
+ {t:'التعريف والمدة',d:'هي إحدى أهم مراحل النمو الإنساني، وتُعرف بمرحلة المدرسة الابتدائية أو مرحلة الطفولة الوسطى والمتأخرة. تمتد من سن السادسة أو السابعة وحتى البلوغ (حوالي 12 عاماً).',
+  s:[['stairs',120,80,100,'violet'],['kid',84,84,36,'coral'],['kid',152,22,40,'sun'],['t',84,144,'6 سنوات',12],['t',160,144,'12 سنة',12]]},
+ {t:'مرحلة انتقالية حاسمة',d:'ينتقل الطفل من الاعتماد الكلي على الأسرة إلى الاستقلالية النسبية، وتتسع علاقاته الاجتماعية لتشمل المدرسة والأصدقاء.',
+  s:[['kid',196,88,62,'coral'],['heart',196,36,26,'coral'],['arrow',120,76,44,'sun',180],['school',44,70,62,'sky'],['t',196,136,'الأسرة',12],['t',44,128,'المدرسة',12],['t',44,142,'والأصدقاء',12]]}
+ ]});
+
+P.push({id:'p1',nav:'1.1 الجسمي',tag:'1 · مظاهر النمو · 1.1',title:'النمو الجسمي والحركي',a:'coral',
+ hero:['kid','coral',['ruler','sun'],['tooth','sky'],['dumbbell','mint'],['ball','violet']],
+ pts:[
+ {t:'بطء النمو مقارنة بالمرحلة السابقة',d:'يصبح نمو الطول والوزن أكثر استقراراً وتدرجاً مقارنة بالنمو السريع في الطفولة المبكرة.',
+  s:[['p','M20 118C40 40 70 38 214 34','sky',5],['star',214,34,16,'sun'],['kid',120,98,56,'coral'],['t',120,142,'نمو أكثر استقراراً وتدرجاً',11]]},
+ {t:'تطور المهارات الحركية الدقيقة والكبيرة',d:'يتحكم الطفل بشكل أفضل في عضلاته، مما يظهر بوضوح في مهارات الكتابة، الرسم، ممارسة الرياضات المعقدة، وركوب الدراجات.',
+  s:[['kid',120,78,84,'coral'],['pencil',44,34,40,'sun'],['palette',196,34,40,'violet'],['ball',44,116,40,'mint'],['bike',196,116,44,'sky']]},
+ {t:'فقدان الأسنان اللبنية',d:'تبدأ الأسنان الدائمة في الظهور تباعاً خلال هذه السنوات.',
+  s:[['tooth',190,52,40,'sky'],['arrow',120,70,40,'sun',180],['tooth',60,80,70,'sky'],['star',92,30,20,'sun'],['t',190,90,'لبنية',12],['t',60,134,'دائمة',12]]},
+ {t:'الزيادة التدريجية في القوة والتحمل',d:'تتطور الألياف العضلية والعظام وتزداد صلابتها، مما يمنح الطفل قدرة أكبر على بذل جهد بدني متواصل والمشاركة في الألعاب الحركية الجماعية لفترات أطول.',
+  s:[['kid',54,86,68,'mint'],['dumbbell',140,48,64,'coral'],['clock',196,104,40,'sky'],['ball',140,110,40,'sun']]},
+ {t:'اكتمال التآزر البصري الحركي',d:'تتحسن بشكل ملحوظ دقة التنسيق بين حركة العينين والأيدي، وهو ما يظهر في إتقان مهارات مثل التقاط الكرة بدقة، الكتابة المنتظمة على السطور، والأعمال اليدوية الدقيقة.',
+  s:[['kid',60,84,70,'mint'],['ball',140,38,36,'coral'],['p','M128 44Q100 42 88 62','ink',3,'4 6'],['eye',190,100,56,'sky'],['pencil',190,38,40,'sun']]}
+ ]});
+
+P.push({id:'p2',nav:'1.2 العقلي',tag:'1 · مظاهر النمو · 1.2',title:'النمو العقلي والمعرفي',a:'sky',
+ hero:['brain','violet',['bulb','sun'],['puzzle','mint'],['book','sky'],['clock','coral']],
+ pts:[
+ {t:'المرحلة الإجرائية المحسوسة (حسب بياجيه)',d:'يبدأ الطفل في التفكير المنطقي، لكنه يظل مرتبطاً بالأشياء المحسوسة والملموسة.',
+  s:[['brain',190,70,66,'violet'],['arrow',130,72,34,'sky',180],['apple',80,38,40,'coral'],['ball',44,84,38,'mint'],['puzzle',90,110,40,'sun'],['t',190,124,'تفكير منطقي',11],['t',60,144,'أشياء ملموسة',11]]},
+ {t:'تطور الذاكرة والتركيز',d:'تتحسن القدرة على الانتباه لفترات أطول وتخزين واسترجاع المعلومات بفاعلية أكبر.',
+  s:[['brain',120,74,76,'sky'],['clock',44,40,40,'sun'],['book',196,40,44,'mint'],['eye',44,112,44,'violet'],['star',196,112,28,'sun']]},
+ {t:'نمو التفكير النقدي وحل المشكلات',d:'يصبح الطفل قادراً على استيعاب مفاهيم مثل التصنيف، الترتيب التنازلي والتصاعدي، ومفهوم «الاحتفاظ»، أي إدراك أن الكمية لا تتغير بتغير الشكل.',
+  s:[['bulb',120,56,64,'sun'],['puzzle',50,76,56,'mint'],['stairs',192,80,52,'violet'],['t',120,128,'تصنيف · ترتيب · احتفاظ',11]]},
+ {t:'نمو استراتيجيات التذكر الواعي',d:'يبدأ الطفل في استخدام وسائل مساعدة لتذكر المعلومات، مثل التكرار والتنظيم والتصنيف الذهني، بدلاً من الاعتماد المطلق على الذاكرة الآلية الخام.',
+  s:[['checklist',194,70,56,'mint'],['arrow',134,72,34,'sky',180],['brain',74,72,66,'violet'],['star',40,30,20,'sun'],['t',194,120,'تنظيم وتكرار',11],['t',74,120,'تذكّر أفضل',11]]},
+ {t:'تراجع التمركز حول الذات (اللاتمركز)',d:'يتراجع تمحور الطفل حول ذاته في الحكم على الأمور، ويصبح قادراً على إدراك أن الآخرين قد يمتلكون أفكاراً ومشاعر ووجهات نظر تختلف عن وجهة نظره.',
+  s:[['kid',50,100,56,'coral'],['kid',190,100,56,'sky'],['bubble',50,42,44,'coral'],['bubble',190,42,44,'sky'],['dice',120,84,44,'sun'],['t',120,132,'وجهات نظر مختلفة',11]]}
+ ]});
+
+P.push({id:'p3',nav:'1.3 الاجتماعي',tag:'1 · مظاهر النمو · 1.3',title:'النمو الاجتماعي',a:'mint',
+ hero:['heart','coral',['kid','sky'],['kid','mint'],['kid','sun'],['bubble','violet']],
+ pts:[
+ {t:'الانتقال من التمركز حول الذات إلى الاجتماعية',d:'يصبح الطفل أكثر ميلاً للتعاون مع الآخرين وفهم وجهات نظرهم.',
+  s:[['kid',50,96,60,'coral'],['kid',190,96,60,'sky'],['puzzle',120,58,50,'mint'],['heart',120,110,26,'coral'],['t',120,144,'تعاون',12]]},
+ {t:'أهمية جماعة الرفاق (الأصدقاء)',d:'تلعب الشلة أو الأصدقاء دوراً محورياً، حيث يبحث الطفل عن القبول والانتماء والتقدير بين أقرانه.',
+  s:[['kid',44,92,56,'coral'],['kid',96,92,56,'sky'],['kid',148,92,56,'mint'],['kid',200,92,56,'violet'],['heart',122,30,30,'coral'],['star',190,30,20,'sun'],['star',54,30,20,'sun'],['t',120,140,'القبول والانتماء',12]]},
+ {t:'بداية الاستقلال عن الأسرة',d:'تتراجع سلطة الأبوين المطلقة، ويبدأ الطفل في تكوين معايير خاصة به مستمدة من محيطه المدرسي والاجتماعي.',
+  s:[['kid',196,84,80,'violet'],['kid',132,100,50,'coral'],['arrow',88,76,36,'sun',180],['flag',46,72,56,'mint'],['t',46,126,'استقلال',12]]},
+ {t:'الولاء لجماعة الرفاق',d:'يلتزم الطفل بمعايير جماعة الأصدقاء في اللباس والحديث والسلوك، وقد يفضلها أحياناً على توجيهات الأهل، مع ظهور الرغبة في تكوين صداقات حميمة وقائمة على الثقة المتبادلة.',
+  s:[['kid',50,96,56,'sky'],['kid',96,96,56,'sky'],['kid',142,96,56,'sky'],['kid',204,96,56,'coral'],['arrow',176,100,24,'sun',180],['heart',96,34,28,'coral'],['t',96,142,'نفس اللباس والكلام',11]]},
+ {t:'تعلم المهارات التفاوضية وحل النزاعات',d:'يتجاوز الطفل أساليب الشجار المباشر، ويتعلم تدريجياً كيف يتفاوض ويساوم ويتعاون لحل الخلافات داخل مجموعة الألعاب.',
+  s:[['kid',44,96,60,'coral'],['kid',196,96,60,'sky'],['scale',120,66,76,'sun'],['bubble',120,120,30,'mint'],['t',120,146,'تفاوض وتعاون',11]]}
+ ]});
+
+P.push({id:'p4',nav:'1.4 الانفعالي',tag:'1 · مظاهر النمو · 1.4',title:'النمو الانفعالي والشخصي',a:'violet',
+ hero:['smile','sun',['heart','coral'],['cloud','sky'],['shield','violet'],['drop','sky']],
+ pts:[
+ {t:'الاستقرار الانفعالي نسبياً',d:'تتميز الانفعالات بالهدوء مقارنة بتقلبات مرحلة المراهقة اللاحقة.',
+  s:[['smile',120,60,68,'sun'],['cloud',50,38,48,'sky'],['sun',196,34,40,'sun'],['p','M20 118q16-12 32 0t32 0t32 0t32 0t32 0t32 0','sky',4],['t',120,144,'هدوء مقارنة بالمراهقة',11]]},
+ {t:'نمو المفهوم الذاتي (تقدير الذات)',d:'يبدأ الطفل في تقييم قدراته ومهاراته بناءً على إنجازاته الدراسية والرياضية ومقارنة نفسه بالآخرين.',
+  s:[['kid',50,90,66,'coral'],['heart',50,30,26,'sun'],['trophy',140,40,44,'sun'],['book',196,52,40,'mint'],['ball',140,102,40,'sky'],['star',196,104,30,'violet']]},
+ {t:'الوعي بالمسؤولية',d:'يبدأ الضمير الأخلاقي في التبلور، ويفهم الطفل مفاهيم العدالة والأمانة والخطأ والصواب بشكل أعمق.',
+  s:[['kid',50,86,66,'violet'],['checklist',130,62,56,'mint'],['shield',196,66,50,'sky'],['t',130,128,'مسؤولية',12]]},
+ {t:'الضبط الانفعالي والتخفي العاطفي',d:'يتعلم الطفل كيف يكبح بعض انفعالاته السلبية، مثل البكاء لأسباب بسيطة، تجنباً للسخرية، ويميل إلى إخفاء مشاعر الإحراج أو الخوف أمام زملائه.',
+  s:[['sad',140,84,62,'sky'],['smile',112,62,66,'sun'],['lock',204,36,34,'violet'],['drop',46,106,30,'sky'],['t',120,144,'مشاعر مخفية',11]]},
+ {t:'انتقال المعايير الأخلاقية من الخارجية إلى الداخلية',d:'يبدأ الطفل في استيعاب القواعد الأخلاقية، فلا يفعل الخطأ خوفاً من العقاب فقط، بل لأنه يدرك قيمته ذاتياً ويشعر بالذنب الداخلي عند مخالفته.',
+  s:[['lock',196,60,48,'coral'],['arrow',138,64,34,'sun',180],['kid',70,84,68,'coral'],['heart',70,76,14,'sun'],['t',196,102,'خوف من العقاب',10],['t',70,134,'شعور داخلي بالذنب',10]]}
+ ]});
+P.push({id:'traits',nav:'2 الخصائص',tag:'2 · الخصائص النفسية والسلوكية البارزة',title:'خصائص الطفل النفسية',a:'sun',
+ hero:['trophy','sun',['magnifier','sky'],['puzzle','violet'],['dice','mint'],['lock','coral']],
+ pts:[
+ {t:'حب الاستطلاع والفضول المعرفي',d:'يسأل الطفل باستمرار عن «كيف» و«لماذا» لفهم قوانين العالم المحيط به.',
+  s:[['magnifier',90,74,80,'sky'],['t',84,82,'؟',36,'violet'],['bulb',180,48,50,'sun'],['t',170,116,'كيف؟ لماذا؟',12]]},
+ {t:'الميل إلى التنافس',d:'تظهر الرغبة القوية في الفوز وإثبات الذات من خلال الألعاب والمسابقات المدرسية والأنشطة الرياضية.',
+  s:[['kid',46,96,60,'coral'],['kid',194,96,60,'sky'],['trophy',120,54,64,'sun'],['star',90,24,18,'coral'],['star',150,24,18,'mint'],['t',120,138,'الفوز وإثبات الذات',12]]},
+ {t:'الالتزام بالقواعد والقوانين',d:'يميل الأطفال في هذه المرحلة إلى حب الألعاب ذات القواعد الصارمة والمنظمة والتمسك بتطبيقها حرفياً.',
+  s:[['dice',48,70,52,'mint'],['checklist',118,70,60,'sky'],['check',190,66,44,'mint'],['t',120,128,'قواعد صارمة ومنظمة',12]]},
+ {t:'الاهتمام بالألغاز والتحديات الفكرية',d:'ينجذب الطفل نحو الألعاب التي تتطلب إعمال الفكر، مثل الكلمات المتقاطعة وألعاب التركيب (Puzzles) والألغاز المنطقية التي تشبع رغبته في الإنجاز العقلي.',
+  s:[['puzzle',70,70,70,'violet'],['bulb',160,46,50,'sun'],['dice',200,104,40,'mint'],['t',100,138,'ألغاز وتحديات فكرية',12]]},
+ {t:'الميل إلى تكوين الجماعات السرية أو النوادي الخاصة',d:'يحب الأطفال في هذه السن تأسيس «شِلة» خاصة بهم لها شروط انضمام وكلمات سر وأماكن تجمع مفضلة، مما يعزز لديهم الشعور بالهوية المستقلة.',
+  s:[['kid',44,92,56,'coral'],['kid',84,92,56,'sky'],['lock',140,70,56,'violet'],['key',196,66,46,'sun'],['t',120,138,'كلمة السر',12]]}
+ ]});
+
+P.push({id:'language',nav:'3 اللغة',tag:'3 · الجانب اللغوي والتواصل',title:'اللغة والتواصل',a:'sky',
+ hero:['bubble','sky',['book','mint'],['pencil','sun'],['ear','coral'],['star','violet']],
+ pts:[
+ {t:'اكتمال البنيات اللغوية الأساسية',d:'يصبح الطفل قادراً على استخدام جمل معقدة ومركبة بدقة نحوية عالية، وفهم الدلالات المجازية البسيطة.',
+  s:[['bubble0',68,56,76,'sky'],['t',68,54,'جمل مركبة',11],['bubble0',172,92,84,'coral'],['t',172,90,'معانٍ مجازية',10],['star',200,30,22,'sun']]},
+ {t:'تطور مهارات القراءة والكتابة المتقدمة',d:'تتحول القراءة من كونها آلية لتهجئة الحروف إلى أداة لاكتساب المعرفة والاستمتاع، وتتنامى الحصيلة اللغوية بشكل متسارع.',
+  s:[['book',72,72,76,'mint'],['pencil',166,56,56,'sun'],['t',72,128,'أ ب ج',16],['bulb',204,100,40,'sky'],['t',190,140,'معرفة ومتعة',11]]},
+ {t:'استخدام اللغة كأداة للتعبير العاطفي والاجتماعي',d:'يميل الطفل إلى استخدام الحوار والنقاش (وأحياناً الجدال اللفظي) للتعبير عن آرائه والدفاع عن مواقفه بدلاً من البكاء أو الصراخ.',
+  s:[['kid',46,94,60,'coral'],['kid',194,94,60,'sky'],['bubble',84,38,40,'violet'],['bubble',156,38,40,'mint'],['drop',120,100,26,'sky'],['cross',134,88,18,'coral'],['t',120,140,'حوار بدل الصراخ',11]]}
+ ]});
+
+P.push({id:'challenges',nav:'4 التحديات',tag:'4 · أبرز التحديات والمشكلات',title:'أبرز التحديات',a:'coral',
+ hero:['cloud','violet',['screen','sky'],['sad','coral'],['school','mint'],['clock','sun']],
+ pts:[
+ {t:'التحصيل الدراسي وضغوط المدرسة',d:'قد يعاني بعض الأطفال من قلق الاختبارات أو صعوبات التعلم إذا لم يتم اكتشافها مبكراً.',
+  s:[['checklist',120,60,64,'sky'],['sad',52,84,50,'violet'],['clock',192,54,44,'coral'],['drop',70,46,20,'sky'],['t',120,122,'قلق الاختبارات',12],['t',120,142,'صعوبات التعلم',11]]},
+ {t:'التنمر والعلاقات مع الأقران',d:'التعرض للرفض الاجتماعي أو التنمر يمكن أن يؤثر سلباً على ثقة الطفل بنفسه.',
+  s:[['kid',46,92,62,'violet'],['drop',46,48,18,'sky'],['kid',154,96,54,'coral'],['kid',200,96,54,'coral'],['cross',100,70,34,'coral'],['t',120,142,'الرفض الاجتماعي',12]]},
+ {t:'المقارنة والشعور بالنقص',d:'نتيجة مقارنة الطفل نفسه بأقرانه في الجانب الأكاديمي أو المظهر الجسدي.',
+  s:[['kid',58,98,50,'coral'],['sad',58,48,32,'violet'],['kid',186,82,84,'sky'],['star',186,20,22,'sun'],['scale',122,66,56,'sun'],['t',120,142,'مقارنة ونقص',12]]},
+ {t:'التأثر السلبي بالإعلام والشاشات',d:'قلة الحركة وزيادة العزلة بسبب الأجهزة الذكية وألعاب الفيديو.',
+  s:[['screen',82,68,92,'sky'],['kid',180,92,66,'coral'],['ball',208,32,34,'mint'],['cross',224,18,18,'coral'],['t',120,142,'قلة حركة وعزلة',12]]},
+ {t:'التمرد المعتدل والعناد اللفظي',d:'نتيجة رغبة الطفل في إثبات استقلاليته، قد تظهر أحياناً ردود فعل عنادية أو رفض لتنفيذ الأوامر بالطريقة التقليدية.',
+  s:[['kid',56,92,66,'coral'],['bubble0',156,54,88,'coral'],['t',156,58,'لا!',26],['t',120,142,'رفض الأوامر التقليدية',11]]},
+ {t:'مشكلات التوافق المدرسي والخوف من المدرسة (School Phobia)',d:'قد تظهر لدى بعض الأطفال مخاوف مرتبطة بالانفصال عن المنزل، أو صعوبة الاندماج، أو الخوف من الفشل.',
+  s:[['school',184,78,76,'sky'],['cloud',184,22,40,'violet'],['kid',66,92,64,'coral'],['heart',30,30,26,'coral'],['sad',66,40,28,'violet'],['t',90,142,'الخوف من الانفصال',11]]}
+ ]});
+
+P.push({id:'health',nav:'5 الصحة',tag:'5 · الصحة النفسية والجسدية',title:'الصحة النفسية والجسدية',a:'mint',
+ hero:['heart','coral',['apple','sun'],['moon','violet'],['bike','sky'],['glass','mint']],
+ pts:[
+ {t:'أهمية جودة النوم والنمو البيولوجي',d:'يحتاج الطفل إلى ما بين 9 إلى 11 ساعة من النوم ليلاً لدعم إفراز هرمون النمو وضمان التركيز الذهني.',
+  s:[['bed',92,92,100,'sky'],['moon',186,40,54,'sun'],['star',150,28,16,'sun'],['t',112,44,'z z z',16,'violet'],['t',120,142,'9 إلى 11 ساعة نوم',12]]},
+ {t:'التغذية المتوازنة لمواجهة الطفرات الحركية',d:'توفير وجبات غنية بالكالسيوم والحديد لدعم نمو العظام وزيادة النشاط المعرفي والعضلي.',
+  s:[['glass',50,64,54,'sky'],['apple',116,68,58,'coral'],['plant',186,66,60,'mint'],['t',50,112,'كالسيوم',11],['t',116,112,'فواكه',11],['t',186,112,'حديد وخضار',11]]},
+ {t:'الوقاية من السمنة المرتبطة بأسلوب الحياة',d:'تشجيع الأنشطة الخارجية والرياضات الحركية للحد من الآثار السلبية للجلوس الطويل أمام الشاشات.',
+  s:[['bike',70,82,80,'coral'],['ball',158,72,48,'mint'],['screen',204,40,44,'sky'],['cross',224,22,18,'coral'],['t',120,138,'حركة أكثر وجلوس أقل',12]]}
+ ]});
+
+P.push({id:'moral',nav:'6 الأخلاق',tag:'6 · النمو الأخلاقي والقيمي',title:'النمو الأخلاقي والقيمي',a:'violet',
+ hero:['scale','sun',['heart','coral'],['shield','mint'],['check','sky'],['flag','violet']],
+ pts:[
+ {t:'من «الأخلاق الواقعية» إلى «الأخلاق التعاونية»',d:'ينتقل الطفل من الحكم على الأفعال بناءً على حجم نتائجها المادية فقط، إلى فهم النوايا والدوافع الكامنة وراء السلوك.',
+  s:[['glass',192,72,52,'sky'],['arrow',132,74,36,'sun',180],['heart',70,58,58,'coral'],['magnifier',100,102,36,'violet'],['t',192,118,'حجم النتيجة',11],['t',60,142,'فهم النية والدافع',11]]},
+ {t:'إدراك العدالة التبادلية والمساواة',d:'يتطور مفهوم العدالة ليتجاوز تنفيذ الأوامر، ويصبح مبنياً على الإنصاف والتعاون المتبادل داخل مجموعة اللعب أو الصف.',
+  s:[['scale',120,62,90,'sun'],['kid',44,108,48,'coral'],['kid',196,108,48,'sky'],['t',120,142,'إنصاف وتعاون متبادل',11]]},
+ {t:'الالتزام بالقواعد كعقد اجتماعي مؤقت',d:'يستوعب الطفل أن القواعد وُضعت لتنظيم الحياة الجماعية وتحقيق المصلحة المشتركة، وليست لمجرد فرض السلطة.',
+  s:[['shield',120,44,60,'mint'],['kid',60,108,50,'coral'],['kid',120,112,50,'sky'],['kid',180,108,50,'sun'],['check',186,36,26,'mint'],['t',50,38,'قواعد للجميع',11]]}
+ ]});
+
+P.push({id:'school',nav:'7 المدرسة',tag:'7 · الدور التربوي للمدرسة والمعلم',title:'المدرسة والمعلم',a:'sky',
+ hero:['school','sky',['board','mint'],['kid','coral'],['trophy','sun'],['palette','violet']],
+ pts:[
+ {t:'المعلم كقدوة بديلة',d:'يكتسب المعلم مكانة وتقديراً عاليين لدى الطفل، ليتحول إلى نموذج ومثال أعلى يُحتذى به في السلوكيات والأفكار.',
+  s:[['board',92,52,100,'sky'],['kid',196,88,82,'violet'],['star',196,30,22,'sun'],['kid',56,112,48,'coral'],['kid',104,114,44,'mint'],['t',120,147,'المعلم نموذج يُحتذى به',11]]},
+ {t:'مختبر التجارب الاجتماعية الأول',d:'تمثل المدرسة البيئة المصغرة الأولى التي يختبر فيها الطفل النجاح والفشل خارج إطار الأسرة، مما يعلمه تقبل النقد والمنافسة الشريفة.',
+  s:[['school',60,66,70,'sky'],['check',140,40,40,'mint'],['cross',196,40,40,'coral'],['kid',168,102,56,'coral'],['t',60,118,'مجتمع مصغّر',10],['t',168,142,'نجاح وفشل',11]]},
+ {t:'اكتشاف المهارات والمواهب الكامنة',d:'تتيح الأنشطة المدرسية (المسرح، الرسم، الرياضة) نافذة حيوية لاكتشاف ميول الطفل وتوجيه طاقاته نحو مسارات إبداعية.',
+  s:[['palette',48,52,52,'coral'],['ball',120,48,50,'mint'],['trophy',192,52,54,'sun'],['kid',120,112,50,'violet'],['star',80,106,20,'sun'],['star',164,106,20,'coral']]}
+ ]});
+
+P.push({id:'bio',nav:'8 البلوغ',tag:'8 · التغيرات البيولوجية المبكرة وبوادر البلوغ',title:'بوادر مرحلة البلوغ',a:'coral',
+ hero:['kid','violet',['drop','coral'],['bolt','sun'],['ruler','sky'],['eye','mint']],
+ pts:[
+ {t:'بداية الإشارات الهرمونية الخفية (Adrenarche)',d:'تبدأ هذه الظاهرة عادة في حوالي سن 6 إلى 9 سنوات، حيث تفرز الغدد الكظرية هرمونات مبكرة تمهد للتحولات الجسدية القادمة. أما البلوغ نفسه فيبدأ لاحقاً.',
+  s:[['kid',56,86,72,'violet'],['drop',130,64,50,'coral'],['bolt',186,58,46,'sun'],['t',130,116,'هرمونات مبكرة',11],['t',120,144,'تبدأ من 6 إلى 9 سنوات',12]]},
+ {t:'الفروق الفردية بين الجنسين',d:'غالباً ما تبدأ الفتيات في النمو الجسدي الأسرع وتجاوز الأولاد في الطول والوزن مؤقتاً في هذه الفئة العمرية.',
+  s:[['kid',70,80,84,'coral'],['kid',156,92,62,'sky'],['arrow',70,14,24,'sun',-90],['t',62,142,'الفتيات أسرع نمواً',11],['t',172,142,'الأولاد',11]]},
+ {t:'الحساسية الزائدة تجاه التغيرات الجسدية',d:'ملاحظة الطفل للتغيرات الدقيقة في مظهره تجعله أكثر حساسية تجاه تعليقات الآخرين، مما يتطلب توعية أسرية مطمئنة.',
+  s:[['kid',60,88,72,'coral'],['eye',176,46,54,'sky'],['bubble',200,102,44,'violet'],['heart',120,96,32,'coral'],['t',120,144,'يحتاج إلى طمأنة',12]]}
+ ]});
+
+P.push({id:'tips',nav:'9 النصائح',tag:'9 · نصائح تربوية',title:'كيف نرافق الطفل؟',a:'mint',
+ hero:['heart','coral',['ear','sky'],['star','sun'],['shield','mint'],['checklist','violet']],
+ pts:[
+ {t:'تشجيع الاستقلالية الموجهة',d:'امنح الطفل مساحة لاتخاذ قراراته البسيطة بنفسه (مثل اختيار ملابسه أو تنظيم جدول مذاكرته) مع توجيه غير مباشر.',
+  s:[['kid',50,88,66,'coral'],['checklist',130,58,56,'mint'],['kid',200,92,76,'violet'],['arrow',168,96,26,'sky',180],['t',120,132,'قرارات بسيطة بتوجيه غير مباشر',10]]},
+ {t:'الاستماع الفعال',d:'خصص وقتاً يومياً للحوار المفتوح مع طفلك حول يومه وأصدقائه وما يواجهه من تحديات، دون إطلاق أحكام سريعة.',
+  s:[['ear',50,64,62,'sky'],['bubble',134,46,66,'sky'],['clock',200,50,42,'sun'],['heart',134,106,34,'coral'],['t',134,140,'حوار بلا أحكام سريعة',11]]},
+ {t:'بناء الثقة بالنفس',d:'امدح جهود الطفل وإنجازاته بدلاً من التركيز المطلق على النتائج النهائية فقط، وساعده على اكتشاف مواهبه وتنميتها.',
+  s:[['kid',56,90,70,'coral'],['heart',56,30,28,'sun'],['star',132,58,46,'sun'],['star',182,38,32,'coral'],['star',206,92,38,'mint'],['t',130,128,'مدح الجهد لا النتيجة فقط',11]]},
+ {t:'تعزيز المهارات الاجتماعية',d:'شجعه على الانخراط في أنشطة جماعية (رياضية، كشفية، أو ثقافية) لتعلم روح الفريق والتعاون.',
+  s:[['flag',120,24,40,'sun'],['ball',120,64,30,'mint'],['kid',46,104,56,'coral'],['kid',100,108,52,'sky'],['kid',152,108,52,'mint'],['kid',200,104,56,'violet'],['t',120,146,'روح الفريق',11]]},
+ {t:'القدوة الحسنة',d:'الأطفال في هذه المرحلة يقلدون السلوكيات أكثر مما يستمعون إلى النصائح المباشرة.',
+  s:[['kid',196,86,84,'violet'],['eye',124,52,50,'sky'],['kid',60,98,60,'coral'],['arrow',116,100,28,'sun',180],['t',120,142,'يقلّدون ما يرون',12]]},
+ {t:'وضع حدود واضحة ومنطقية',d:'إرساء قواعد منزلية متفق عليها ومفهومة الأسباب، مع توضيح العواقب المترتبة على مخالفتها بشكل هادئ وبعيد عن العنف.',
+  s:[['checklist',54,64,60,'mint'],['shield',124,64,56,'sky'],['smile',194,64,54,'sun'],['t',120,116,'قواعد واضحة وهدوء بلا عنف',10],['t',120,136,'عواقب مفهومة الأسباب',10]]},
+ {t:'تنظيم وقت الشاشات والنشاط البدني',d:'وضع جدول زمني متوازن يحد من الجلوس الطويل أمام الأجهزة الرقمية، ويحفز الهوايات الحركية والإبداعية.',
+  s:[['scale',120,76,96,'sun'],['screen',44,26,44,'sky'],['bike',196,26,52,'coral'],['ball',120,136,28,'mint']]}
+ ]});
+(function(){
+  var stage=document.getElementById('stage'),summary=document.getElementById('summary');
+  var CH='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function col(k){return k==='ink'?'var(--ink)':'var(--c-'+k+')'}
+  function use(n,x,y,sz,c,rot){
+    var w=sz,h=sz,id='#g-'+n;
+    if(n==='kid'){w=sz/2;id='#kid'}
+    var t=rot?' transform="rotate('+rot+' '+x+' '+y+')"':'';
+    return '<use href="'+id+'" x="'+(x-w/2)+'" y="'+(y-h/2)+'" width="'+w+'" height="'+h+'" style="color:'+col(c)+'"'+t+'/>';
+  }
+  function scene(items){
+    var h='<svg viewBox="0 0 240 150" role="img" aria-label="رسم توضيحي">';
+    items.forEach(function(it,i){
+      var d=(i*0.09).toFixed(2)+'s',n=it[0],inner;
+      if(n==='t'){
+        inner='<text x="'+it[1]+'" y="'+it[2]+'" text-anchor="middle" font-size="'+(it[4]||12)+'" font-weight="700" fill="'+(it[5]?col(it[5]):'var(--ink)')+'">'+it[3]+'</text>';
+      }else if(n==='p'){
+        inner='<path d="'+it[1]+'" fill="none" stroke="'+col(it[2])+'" stroke-width="'+(it[3]||4)+'" stroke-linecap="round"'+(it[4]?' stroke-dasharray="'+it[4]+'"':'')+'/>';
+      }else{
+        var f=(n==='star'||n==='bulb'||n==='sun')?'tw':'fl';
+        inner='<g class="'+f+'" style="animation-delay:-'+((i*0.7)%3).toFixed(1)+'s">'+use(n,it[1],it[2],it[3],it[4],it[5])+'</g>';
+      }
+      h+='<g class="pop" style="animation-delay:'+d+'">'+inner+'</g>';
+    });
+    return h+'</svg>';
+  }
+  function hero(h){
+    var sp=[[46,44],[254,44],[40,156],[260,156]];
+    var s='<svg viewBox="0 0 300 200" aria-hidden="true"><circle cx="150" cy="100" r="84" fill="'+col(h[1])+'" opacity=".2"/><circle cx="150" cy="100" r="62" fill="'+col(h[1])+'" opacity=".18" class="tw"/>';
+    s+='<g class="fl">'+use(h[0],150,100,h[0]==='kid'?124:96,h[1])+'</g>';
+    for(var i=2;i<6;i++){
+      s+='<g class="fl" style="animation-delay:-'+((i-1)*.7).toFixed(1)+'s">'+use(h[i][0],sp[i-2][0],sp[i-2][1],h[i][0]==='kid'?60:46,h[i][1])+'</g>';
+    }
+    return s+'</svg>';
+  }
+  window.__LC={P:P,scene:scene,hero:hero};
+
+  function build(p){
+    var s=document.createElement('section');
+    s.className='panel';s.id=p.id;s.hidden=true;
+    s.style.setProperty('--a',col(p.a));
+    var h='<div class="panel-grid"><div class="art hero">'+hero(p.hero)+'</div><div class="body"><p class="eyebrow">'+p.tag+'</p><h2><span>'+p.title+'</span></h2><p class="hint">اضغط على أي نقطة ليظهر الرسم التوضيحي.</p><ul class="points">';
+    p.pts.forEach(function(pt,i){
+      h+='<li class="pt" data-i="'+i+'"><button class="pt-head" type="button" aria-expanded="false" aria-controls="'+p.id+'-b'+i+'"><span class="pt-t">'+pt.t+'</span><span class="pt-hint">اعرض الرسم</span>'+CH+'</button><div class="pt-body" id="'+p.id+'-b'+i+'" hidden><p>'+pt.d+'</p><div class="pt-art"></div></div></li>';
+    });
+    h+='</ul>';
+    if(p.map){
+      h+='<div class="map" aria-label="خريطة الأقسام">';
+      P.forEach(function(q){
+        if(q.map)return;
+        h+='<a class="tile" href="#'+q.id+'" style="--a:'+col(q.a)+'"><small>'+q.nav.split(' ')[0]+'</small><b>'+q.title+'</b></a>';
+      });
+      h+='</div><a class="start" href="#p1">ابدأ بالنمو الجسمي</a>';
+    }
+    h+='</div></div>';
+    s.innerHTML=h;
+    s.querySelector('.points').addEventListener('click',function(e){
+      var b=e.target.closest('.pt-head');if(!b)return;
+      var li=b.parentNode,open=li.classList.contains('open');
+      toggleAll(s,li,!open,p);
+    });
+    return s;
+  }
+  function toggleAll(s,target,open,p){
+    var items=s.querySelectorAll('.pt');
+    for(var i=0;i<items.length;i++){
+      var li=items[i],on=(li===target&&open),b=li.firstChild,body=li.lastChild;
+      li.classList.toggle('open',on);b.setAttribute('aria-expanded',on?'true':'false');body.hidden=!on;
+      if(on)li.querySelector('.pt-art').innerHTML=scene(p.pts[+li.getAttribute('data-i')].s);
+    }
+  }
+  P.forEach(function(p){
+    var s=build(p);stage.insertBefore(s,summary);
+    toggleAll(s,s.querySelector('.pt'),true,p);
+  });
+
+  var items=[['cover','الغلاف']].concat(P.map(function(p){return [p.id,p.nav]})).concat([['summary','10 الخلاصة']]);
+  var ids=items.map(function(x){return x[0]});
+  var chipsEl=document.getElementById('chips'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  var count=document.getElementById('count'),fill=document.getElementById('fill'),first=true;
+  items.forEach(function(it){
+    var c=document.createElement('button');c.type='button';c.className='chip';c.textContent=it[1];
+    c.addEventListener('click',function(){location.hash=it[0]});chipsEl.appendChild(c);
+  });
+  var chips=chipsEl.children;
+  function current(){var h=location.hash.slice(1);return ids.indexOf(h)>-1?h:'cover'}
+  function render(){
+    var id=current(),idx=ids.indexOf(id);
+    ids.forEach(function(x){document.getElementById(x).hidden=(x!==id)});
+    for(var i=0;i<chips.length;i++)chips[i].setAttribute('aria-current',i===idx?'true':'false');
+    prev.disabled=idx===0;next.disabled=idx===ids.length-1;
+    count.textContent=(idx+1)+' / '+ids.length;
+    fill.style.width=((idx+1)/ids.length*100)+'%';
+    try{chips[idx].scrollIntoView({inline:'center',block:'nearest'})}catch(e){}
+    if(!first)window.scrollTo(0,0);
+    first=false;
+  }
+  prev.addEventListener('click',function(){var i=ids.indexOf(current());if(i>0)location.hash=ids[i-1]});
+  next.addEventListener('click',function(){var i=ids.indexOf(current());if(i<ids.length-1)location.hash=ids[i+1]});
+  window.addEventListener('hashchange',render);
+  document.addEventListener('keydown',function(e){
+    if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+    if(e.key==='ArrowLeft')next.click();else if(e.key==='ArrowRight')prev.click();
+  });
+  render();
+})();
+(function(){
+  var cv=document.getElementById('bg'),ctx=cv.getContext('2d');
+  var W=0,H=0,pal=[],ink='#000',list=[],tick=0;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var kinds=['star','star','book','pencil','plane','ball','bubble','bubble','text','text','text'];
+  var glyphs=['أ','ب','ج','1','2','3','+','؟','='];
+  function readPal(){
+    var s=getComputedStyle(document.documentElement);
+    pal=['--c-sun','--c-coral','--c-mint','--c-violet','--c-sky'].map(function(k){return s.getPropertyValue(k).trim()||'#888'});
+    ink=s.getPropertyValue('--ink').trim()||'#222';
+  }
+  function resize(){
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    W=window.innerWidth;H=window.innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    var n=W<600?16:28;
+    if(list.length!==n){
+      list=[];
+      for(var i=0;i<n;i++){
+        list.push({k:kinds[i%kinds.length],x:Math.random()*W,y:Math.random()*H,s:16+Math.random()*22,
+          vy:.12+Math.random()*.35,rot:Math.random()*6.28,vr:(Math.random()-.5)*.012,
+          ci:i%5,a:.22+Math.random()*.2,ph:Math.random()*6.28,g:glyphs[i%glyphs.length]});
+      }
+    }
+  }
+  function star(s){ctx.beginPath();for(var i=0;i<10;i++){var r=i%2?s*.45:s,a=-Math.PI/2+i*Math.PI/5;ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath();ctx.fill()}
+  function draw(o,t){
+    var x=o.x+Math.sin(t/1800+o.ph)*18,s=o.s,c=pal[o.ci];
+    ctx.save();ctx.translate(x,o.y);ctx.rotate(o.rot);ctx.globalAlpha=o.a;ctx.fillStyle=c;ctx.strokeStyle=c;ctx.lineWidth=2.5;
+    switch(o.k){
+      case 'star':star(s);break;
+      case 'book':ctx.fillRect(-s,-s*.7,s*2,s*1.4);ctx.fillStyle='rgba(255,255,255,.55)';ctx.fillRect(-s*.12,-s*.7,s*.24,s*1.4);break;
+      case 'pencil':ctx.fillRect(-s*1.1,-s*.17,s*1.8,s*.34);ctx.beginPath();ctx.moveTo(s*.7,-s*.17);ctx.lineTo(s*1.2,0);ctx.lineTo(s*.7,s*.17);ctx.closePath();ctx.fillStyle=ink;ctx.fill();break;
+      case 'plane':ctx.beginPath();ctx.moveTo(-s,-s*.5);ctx.lineTo(s,0);ctx.lineTo(-s,s*.5);ctx.lineTo(-s*.5,0);ctx.closePath();ctx.fill();break;
+      case 'ball':ctx.beginPath();ctx.arc(0,0,s*.8,0,6.283);ctx.fill();break;
+      case 'bubble':ctx.beginPath();ctx.arc(0,0,s*.75,0,6.283);ctx.stroke();break;
+      default:ctx.font=(s*1.7)+'px Lalezar, Tajawal, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.g,0,0);
+    }
+    ctx.restore();
+  }
+  function frame(t){
+    if(tick++%45===0)readPal();
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<list.length;i++){
+      var o=list[i];
+      if(!reduce){o.y-=o.vy;o.rot+=o.vr;if(o.y<-60){o.y=H+60;o.x=Math.random()*W}}
+      draw(o,reduce?0:t);
+    }
+    if(!reduce)requestAnimationFrame(frame);
+  }
+  readPal();resize();
+  window.addEventListener('resize',function(){resize();if(reduce)frame(0)});
+  frame(0);
+})();
+</script>
+
+</body>
+</html>
